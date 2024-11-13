@@ -1,9 +1,8 @@
 #include <stdio.h>
 
-float calculate_average_grade() // 학년별 과목 등급을 넣을 배열
-{
-	float grades[3][5]; // 학년 과목 수
-    const char *subjects[] = { "국어", "수학", "영어", "과학탐구", "사회탐구" };
-	int grade_level, subject;
-	float total_sum = 0;
-	int num_subjects = 3 * 5;
+typedef struct // 학년별, 과목별, 전체 평균을 저장할 구조체 정의 (구조체로 하는게 맞겠지?)
+{   
+    float grade_level_averages[3]; // 학년별 평균 등급
+    float subject_averages[5];     // 과목별 평균 등급
+    float overall_average;         // 전체 평균 등급
+} GradeAverages;
