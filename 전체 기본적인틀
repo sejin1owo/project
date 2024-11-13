@@ -3,8 +3,7 @@
 float calculate_average_grade() // 학년별 과목 등급을 넣을 배열
 {
 	float grades[3][5]; // 학년 과목 수
-	char *subject[] = { "국어", "수학", "영어", "과학탐구", "사회탐구" };
+    const char *subjects[] = { "국어", "수학", "영어", "과학탐구", "사회탐구" };
 	int grade_level, subject;
 	float total_sum = 0;
 	int num_subjects = 3 * 5;
-}
