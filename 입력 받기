@@ -1,3 +1,11 @@
+    float calculate_average_grade() // 학년별 과목 등급을 넣을 배열
+{
+	float grades[3][5]; // 학년 과목 수
+    const char *subjects[] = { "국어", "수학", "영어", "과학탐구", "사회탐구" };
+	int grade_level, subject;
+	float total_sum = 0;
+	int num_subjects = 3 * 5;
+
     for (grade_level = 0; grade_level < 3; grade_level++) {
         printf("\n%d학년 성적을 입력하세요.\n", grade_level + 1); // 성적을 입력
 
@@ -19,4 +27,8 @@
                 }
             }
         }
-    
+    }
+
+
+    return total_sum / num_subjects; // 
+}
