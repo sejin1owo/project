@@ -1,25 +1,31 @@
-    float calculate_average_grade() // 학년별 과목 등급을 넣을 배열
+   GradeAverages calculate_average_grade()   // 학년별 과목 등급을 저장할 배열
 {
-	float grades[3][5]; // 학년 과목 수
-    const char *subjects[] = { "국어", "수학", "영어", "과학탐구", "사회탐구" };
-	int grade_level, subject;
-	float total_sum = 0;
-	int num_subjects = 3 * 5;
+    float grades[3][5]; //  학년 과목
+    const char* subjects[] = { "국어", "수학", "영어", "과학탐구", "사회탐구" };
+    int grade_level, subject;
+    float total_sum = 0;
+    int num_subjects = 3 * 5; // 총 과목 수 (3학년 * 5과목)
 
+    GradeAverages averages; // 결과를 저장할 구조체
+
+    // 학년별, 과목별 등급 입력
     for (grade_level = 0; grade_level < 3; grade_level++) {
-        printf("\n%d학년 성적을 입력하세요.\n", grade_level + 1); // 성적을 입력
+        float grade_level_sum = 0;  // 각 학년별 등급 합계를 저장
+        printf("\n%d학년 성적을 입력하세요.\n", grade_level + 1);
 
         for (subject = 0; subject < 5; subject++) {
             while (1) {
-                printf("%d학년 %s 등급을 입력하세요 (예: 1.0 ~ 9.0): ", grade_level + 1, subjects[subject]); // 학년과 등급을 입력받음
-                if (scanf("%f", &grades[grade_level][subject]) != 1) { 
+                printf("%d학년 %s 등급을 입력하세요 (예: 1.0 ~ 9.0): ", grade_level + 1, subjects[subject]);
+                if (scanf_s("%f", &grades[grade_level][subject]) != 1) {
                     printf("잘못된 입력입니다. 숫자를 입력해주세요.\n");
                     while (getchar() != '\n'); // 입력 버퍼 지우기
                     continue;
                 }
 
-                if (grades[grade_level][subject] >= 1.0 && grades[grade_level][subject] <= 9.0) { //등급이 9이상 벗어나지 않게 하기 위해서
-                    total_sum += grades[grade_level][subject];
+                if (grades[grade_level][subject] >= 1.0 && grades[grade_level][subject] <= 9.0) // 등급이 9를 넘지 않도록 조건걸어주기.
+		{
+                    grade_level_sum += grades[grade_level][subject];  // 학년별 합계 추가
+                    total_sum += grades[grade_level][subject];        // 전체 합계 추가
                     break;
                 }
                 else {
@@ -27,8 +33,3 @@
                 }
             }
         }
-    }
-
-
-    return total_sum / num_subjects; // 
-}
