@@ -1,0 +1,22 @@
+    for (grade_level = 0; grade_level < 3; grade_level++) {
+        printf("\n%d학년 성적을 입력하세요.\n", grade_level + 1); // 성적을 입력
+
+        for (subject = 0; subject < 5; subject++) {
+            while (1) {
+                printf("%d학년 %s 등급을 입력하세요 (예: 1.0 ~ 9.0): ", grade_level + 1, subjects[subject]); // 학년과 등급을 입력받음
+                if (scanf("%f", &grades[grade_level][subject]) != 1) { 
+                    printf("잘못된 입력입니다. 숫자를 입력해주세요.\n");
+                    while (getchar() != '\n'); // 입력 버퍼 지우기
+                    continue;
+                }
+
+                if (grades[grade_level][subject] >= 1.0 && grades[grade_level][subject] <= 9.0) { //등급이 9이상 벗어나지 않게 하기 위해서
+                    total_sum += grades[grade_level][subject];
+                    break;
+                }
+                else {
+                    printf("등급은 1.0에서 9.0 사이의 숫자로 입력해주세요.\n");
+                }
+            }
+        }
+    
