@@ -47,8 +47,6 @@ void inputSubjectData(struct Subject subjects[], int numSubjects)
 }
 
 
-
-
 // 세종대 교과평가 등급 산출 코드
 float sejong(struct Subject subjects[], struct Person person)
 {
