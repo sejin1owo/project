@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h> // exit() 함수 사용
 
-// *** 구조체 정의 ***
 struct Person {
     int ptype;        // 지원 분야 (문과: 1, 이과: 2, 예체능: 3, 의예: 4)
     char name[20];    // 지원자 이름
@@ -15,6 +14,7 @@ struct Subject {
     int credit;       // 단위
     int grade;        // 등급 (1~9)
 };
+int numSubjects;
 
 //구조체 추가
 struct GradeAverages {
@@ -29,18 +29,19 @@ void inputDefultData(struct Person* p) {
 
     printf("지원할 분야를 적어주세요 (문과: 1, 이과: 2, 예체능: 3, 의예: 4): ");
     scanf("%d", &p->ptype);
-    while (p->ptype < 1 || p->ptype > 4) {
-        printf("잘못된 입력입니다. 다시 입력해주세요.\n");
-        scanf("%d", &p->ptype);
+    while (p->ptype < 1 || p->ptype > 4) { // 조건 수정: p.ptype이 1~4 사이인지 확인
+        printf(" 다시 입력해주세요.\n");
+        scanf("%d", &p->ptype); // p.ptype으로 수정
     }
 }
 
-// 과목 데이터 입력
+// 입력 함수
 void inputSubjectData(struct Subject subjects[]) {
     int i = 0;
     char j = 'y';
-
-    while (1) {
+    while (1) 
+    {
+        // 학년 및 학기 입력
         printf("과목 %d 정보를 입력합니다.\n", i + 1);
         printf("학년 (1~3): ");
         scanf("%d", &subjects[i].year);
@@ -51,7 +52,7 @@ void inputSubjectData(struct Subject subjects[]) {
         printf("학기 (1학기: 1, 2학기: 2): ");
         scanf("%d", &subjects[i].chepter);
 
-        printf("단위: ");
+        printf("이수 단위: ");
         scanf("%d", &subjects[i].credit);
 
         printf("등급 (1~9): ");
@@ -294,7 +295,7 @@ int main() {
     // p.name을 빈 문자열로 초기화하는 방법
     p.name[0] = '\0'; // 또는 memset(p.name, 0, sizeof(p.name)); 사용 가능
 
-    inputDefultData(&p); // 지원자 기본 정보 입력
+    inputDefultData(&p); // 포인터를 넘겨서 함수에서 수정하도록 함
 
     // 데이터 입력
     inputSubjectData(subjects);
