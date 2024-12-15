@@ -14,7 +14,7 @@ struct Subject {
     int credit;       // 단위
     int grade;        // 등급 (1~9)
 };
-int numSubjects;
+
 
 //구조체 추가
 struct GradeAverages {
