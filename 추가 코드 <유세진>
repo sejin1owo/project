@@ -1,0 +1,115 @@
+// 추가해야하는 코드
+
+// 학년별 평균 계산
+void calculate_yearly_averages(struct Subject subjects[], int numSubjects, float yearly_averages[3]) {
+    int subject_count[3] = {0}; // 학년별 과목 수 카운트
+    float subject_sum[3] = {0}; // 학년별 점수 합계
+
+    for (int i = 0; i < numSubjects; i++) {
+        int year = subjects[i].year - 1; // 0, 1, 2로 변환 (1학년 -> 0)
+        if (year >= 0 && year < 3) {
+            subject_sum[year] += subjects[i].grade; // 등급 합산
+            subject_count[year]++; // 학년별 과목 수 증가
+        }
+    }
+
+    for (int i = 0; i < 3; i++) {
+        if (subject_count[i] > 0) {
+            yearly_averages[i] = subject_sum[i] / subject_count[i]; // 평균 계산
+        } else {
+            yearly_averages[i] = 0; // 과목이 없는 학년은 평균 0
+        }
+    }
+}
+
+// 과목별 평균 계산
+void calculate_subject_averages(struct Subject subjects[], int numSubjects, float subject_averages[7]) {
+    int subject_count[7] = {0}; // 과목별 카운트
+    float subject_sum[7] = {0}; // 과목별 점수 합계
+
+    for (int i = 0; i < numSubjects; i++) {
+        int subject_code = subjects[i].stype - 1; // 과목코드 0부터 시작
+        if (subject_code >= 0 && subject_code < 7) {
+            subject_sum[subject_code] += subjects[i].grade; // 등급 합산
+            subject_count[subject_code]++; // 과목별 수 증가
+        }
+    }
+
+    for (int i = 0; i < 7; i++) {
+        if (subject_count[i] > 0) {
+            subject_averages[i] = subject_sum[i] / subject_count[i]; // 평균 계산
+        } else {
+            subject_averages[i] = 0; // 과목이 없는 경우 평균 0
+        }
+    }
+}
+
+// 전체 평균 계산
+float calculate_total_average(struct Subject subjects[], int numSubjects) {
+    float total_sum = 0;
+    int total_count = 0;
+
+    for (int i = 0; i < numSubjects; i++) {
+        total_sum += subjects[i].grade; // 모든 과목의 등급 합산
+        total_count++; // 전체 과목 수
+    }
+
+    if (total_count > 0) {
+        return total_sum / total_count; // 전체 평균 계산
+    }
+    return 0; // 과목이 없으면 평균 0
+}
+
+
+// 출력 코드
+int main() {
+    struct Person person;
+    struct Subject subjects[100];
+    int numSubjects = 0;
+
+    inputDefultData(&person);
+    inputSubjectData(subjects, &numSubjects);
+
+    // 가천대 점수 계산
+    float score = gachon(subjects, person, numSubjects);
+    printf("가천대 점수 : %.2f\n", score);
+
+    // 상명대 점수 계산
+    score = smu(subjects, person, numSubjects);
+    printf("상명대 점수 : %.2f\n", score);
+
+    // 세종대 점수 계산
+    score = sejong(subjects, person, numSubjects);
+    printf("세종대 점수 : %.2f\n", score);
+
+    // 명지대 점수 계산
+    score = myongji(subjects, person, numSubjects);
+    printf("명지대 점수 : %.2f\n", score);
+
+    // 학년별 평균 계산
+    float yearly_averages[3] = {0}; // 1학년, 2학년, 3학년 평균
+    calculate_yearly_averages(subjects, numSubjects, yearly_averages);
+    printf("학년별 평균 등급:\n");
+    for (int i = 0; i < 3; i++) {
+        printf("%d학년 평균 : %.2f\n", i + 1, yearly_averages[i]);
+    }
+
+    // 과목별 평균 계산
+    float subject_averages[7] = {0}; // 국어, 영어, 수학, 사회, 한국사, 중국어, 일본어 평균
+    calculate_subject_averages(subjects, numSubjects, subject_averages);
+    printf("과목별 평균 등급:\n");
+    printf("국어 평균 : %.2f\n", subject_averages[0]);
+    printf("영어 평균 : %.2f\n", subject_averages[1]);
+    printf("수학 평균 : %.2f\n", subject_averages[2]);
+    printf("사회 평균 : %.2f\n", subject_averages[3]);
+    printf("한국사 평균 : %.2f\n", subject_averages[4]);
+    printf("중국어 평균 : %.2f\n", subject_averages[5]);
+    printf("일본어 평균 : %.2f\n", subject_averages[6]);
+
+    // 전체 평균 계산
+    float total_average = calculate_total_average(subjects, numSubjects);
+    printf("전체 평균 등급 : %.2f\n", total_average);
+
+    return 0;
+}
+
