@@ -2,7 +2,7 @@
 
 typedef struct // 학년별, 과목별, 전체 평균을 저장할 구조체 정의 (구조체로 하는게 맞겠지?)
 {   
-    float grade_level_averages[3]; // 학년별 평균 등급
-    float subject_averages[5];     // 과목별 평균 등급
-    float overall_average;         // 전체 평균 등급
+    float grade[3]; // 학년별 평균 등급
+    float subject[5];     // 과목별 평균 등급
+    float overalle;         // 전체 평균 등급
 } GradeAverages;
