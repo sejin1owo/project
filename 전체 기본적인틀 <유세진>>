@@ -1,8 +1,282 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h> // memset 사용
 
-typedef struct // 학년별, 과목별, 전체 평균을 저장할 구조체 정의 (구조체로 하는게 맞겠지?)
-{   
-    float grade[3]; // 학년별 평균 등급
-    float subject[5];     // 과목별 평균 등급
-    float overalle;         // 전체 평균 등급
-} GradeAverages;
+struct Person {
+    int ptype;        // 지원 분야 (문과: 1, 이과: 2, 예체능: 3, 의예: 4)
+    char name[20];    // 지원자 이름
+};
+
+struct Subject {
+    int stype;        // 과목코드 (1: 국어, 2: 영어, 3: 수학, 4: 사회, 5: 한국사, 6: 중국어, 7: 일본어)
+    int year;         // 학년
+    int chepter;      // 학기
+    int credit;       // 단위
+    int grade;        // 등급 (1~9)
+};
+
+struct GradeAverages {
+    float subject_averages[5]; // 과목별 평균 등급
+    int numSubjects;           // 입력된 과목 수
+};
+
+int numSubjects = 0; // 전역 변수로 선언
+
+// 지원자 정보 입력
+void inputDefultData(struct Person* p) {
+    printf("이름을 입력하세요 : ");
+    scanf("%s", p->name);
+
+    printf("지원할 분야를 적어주세요 (문과: 1, 이과: 2, 예체능: 3, 의예: 4): ");
+    scanf("%d", &p->ptype);
+    while (p->ptype < 1 || p->ptype > 4) {
+        printf("잘못된 입력입니다. 다시 입력해주세요.\n");
+        scanf("%d", &p->ptype);
+    }
+}
+
+// 과목 데이터 입력
+void inputSubjectData(struct Subject subjects[]) {
+    int i = 0;
+    char j = 'y';
+
+    while (1) {
+        printf("과목 %d 정보를 입력합니다.\n", i + 1);
+        printf("학년 (1~3): ");
+        scanf("%d", &subjects[i].year);
+
+        printf("과목코드 (1: 국어, 2: 영어, 3: 수학, 4: 사회, 5: 한국사, 6: 중국어, 7: 일본어): ");
+        scanf("%d", &subjects[i].stype);
+
+        printf("학기 (1학기: 1, 2학기: 2): ");
+        scanf("%d", &subjects[i].chepter);
+
+        printf("단위: ");
+        scanf("%d", &subjects[i].credit);
+
+        printf("등급 (1~9): ");
+        scanf("%d", &subjects[i].grade);
+
+        i++;
+
+        printf("계속 입력할까요? (n/y): ");
+        scanf(" %c", &j);
+        if (j == 'n' || j == 'N') break;
+    }
+    numSubjects = i; // 전역 변수에 저장
+}
+
+// 과목별 평균 계산
+struct GradeAverages calculate_averages(float grades[3][5]) {
+    struct GradeAverages averages = {0}; // 초기화
+    float subject_sum;
+
+    for (int subject = 0; subject < 5; subject++) {
+        subject_sum = 0;
+        for (int year = 0; year < 3; year++) {
+            subject_sum += grades[year][subject];
+        }
+        averages.subject_averages[subject] = subject_sum / 3;
+    }
+
+    return averages;
+}
+
+// 등급 입력
+void input_grades(float grades[3][5]) {
+    for (int grade_level = 0; grade_level < 3; grade_level++) {
+        printf("학년 %d의 과목 등급을 입력하세요.\n", grade_level + 1);
+        for (int subject = 0; subject < 5; subject++) {
+            printf("과목 %d의 등급 (1~9): ", subject + 1);
+            scanf("%f", &grades[grade_level][subject]);
+        }
+    }
+}
+
+// 정렬 함수
+void sort(float arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                float temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+// 각 대학 방식
+
+lse if (subjects[i].stype == 3) { // 수학
+            my_score[3] += subjects[i].credit * score[subjects[i].grade];
+            my_credits[3] += subjects[i].credit;
+        } else if (subjects[i].stype == 4) { // 사회
+            my_score[4] += subjects[i].credit * score[subjects[i].grade];
+            my_credits[4] += subjects[i].credit;
+        } else if (subjects[i].stype == 5) { // 한국사
+            my_score[5] += subjects[i].credit * score[subjects[i].grade];
+            my_credits[5] += subjects[i].credit;
+        } else if (subjects[i].stype == 6) { // 중국어
+            my_score[6] += subjects[i].credit * score[subjects[i].grade];
+            my_credits[6] += subjects[i].credit;
+        } else if (subjects[i].stype == 7) { // 일본어
+            my_score[7] += subjects[i].credit * score[subjects[i].grade];
+            my_credits[7] += subjects[i].credit;
+        }
+    }
+
+    // 과목별 평균 점수 계산
+    for (int i = 1; i <= 7; i++) {
+        if (my_credits[i] > 0) {
+            my_score[i] /= my_credits[i];
+        }
+    }
+
+    if (person.ptype == 4) { // 의예과 점수 계산
+        return (my_score[1] * 2.5 + my_score[2] * 2.5 + my_score[3] * 2.5 + my_score[4] * 2.5) / 10;
+    } else { // 기타 분야
+        float sorted[8];
+        for (int i = 1; i <= 7; i++) {
+            sorted[i] = my_score[i];
+        }
+
+        // 점수 정렬
+        for (int i = 1; i < 7; i++) {
+            for (int j = 1; j < 7 - i; j++) {
+                if (sorted[j] < sorted[j + 1]) {
+                    float temp = sorted[j];
+                    sorted[j] = sorted[j + 1];
+                    sorted[j + 1] = temp;
+                }
+            }
+        }
+
+        return (sorted[1] * 4 + sorted[2] * 3 + sorted[3] * 2 + sorted[4] * 1) / 10;
+    }
+}
+
+// 상명대 방식 점수 계산
+float smu(struct Subject subjects[], struct Person person, int numSubjects) {
+    float totalCredits = 0;
+    float totalScore = 0;
+    float score[10] = {0, 100, 99.5, 99, 98.5, 98, 97.5, 85, 60, 30}; // 등급별 점수
+    float my_score[8] = {0};
+    float my_credits[8] = {0};
+
+    for (int i = 0; i < numSubjects; i++) {
+        if (subjects[i].stype == 1) { // 국어
+            my_score[1] += subjects[i].credit * score[subjects[i].grade];
+            my_credits[1] += subjects[i].credit;
+        } else if (subjects[i].stype == 2) { // 영어
+            my_score[2] += subjects[i].credit * score[subjects[i].grade];
+            my_credits[2] += subjects[i].credit;
+        } else if (subjects[i].stype == 3) { // 수학
+            my_score[3] += subjects[i].credit * score[subjects[i].grade];
+            my_credits[3] += subjects[i].credit;
+        } else if (subjects[i].stype == 4) { // 사회
+            my_score[4] += subjects[i].credit * score[subjects[i].grade];
+            my_credits[4] += subjects[i].credit;
+        }
+    }
+
+    for (int i = 1; i <= 4; i++) {
+        if (my_credits[i] > 0) {
+            my_score[i] /= my_credits[i];
+        }
+    }
+
+    return (my_score[1] * 2.5 + my_score[2] * 2.5 + my_score[3] * 2.5 + my_score[4] * 2.5) / 10;
+}
+
+// 세종대 방식 점수 계산
+float sejong(struct Subject subjects[], struct Person person, int numSubjects) {
+    float totalScore = 0;
+    float score[10] = {0, 100, 99.5, 99, 98.5, 98, 97.5, 85, 60, 30};
+    float my_score[5] = {0}; // 국어, 영어, 수학, 탐구1, 탐구2
+
+    for (int i = 0; i < numSubjects; i++) {
+        if (subjects[i].stype == 1) { // 국어
+            my_score[0] += subjects[i].credit * score[subjects[i].grade];
+        } else if (subjects[i].stype == 2) { // 영어
+            my_score[1] += subjects[i].credit * score[subjects[i].grade];
+        } else if (subjects[i].stype == 3) { // 수학
+            my_score[2] += subjects[i].credit * score[subjects[i].grade];
+        } else if (subjects[i].stype == 4 || subjects[i].stype == 5) { // 탐구
+            if (my_score[3] == 0) {
+                my_score[3] += subjects[i].credit * score[subjects[i].grade];
+            } else {
+                my_score[4] += subjects[i].credit * score[subjects[i].grade];
+            }
+        }
+    }
+
+    return (my_score[0] * 3 + my_score[1] * 3 + my_score[2] * 2 + my_score[3] * 1 + my_score[4] * 1) / 10;
+}
+
+// 명지대 방식 점수 계산
+float myongji(struct Subject subjects[], struct Person person, int numSubjects) {
+    float totalScore = 0;
+    float score[10] = {0, 100, 99.5, 99, 98.5, 98, 97.5, 85, 60, 30};
+    float my_score[5] = {0}; // 국어, 영어, 수학, 탐구1, 탐구2
+
+    for (int i = 0; i < numSubjects; i++) {
+        if (subjects[i].stype == 1) { // 국어
+            my_score[0] += subjects[i].credit * score[subjects[i].grade];
+        } else if (subjects[i].stype == 2) { // 영어
+            my_score[1] += subjects[i].credit * score[subjects[i].grade];
+        } else if (subjects[i].stype == 3) { // 수학
+            my_score[2] += subjects[i].credit * score[subjects[i].grade];
+        } else if (subjects[i].stype == 4 || subjects[i].stype == 5) { // 탐구
+            if (my_score[3] == 0) {
+                my_score[3] += subjects[i].credit * score[subjects[i].grade];
+            } else {
+                my_score[4] += subjects[i].credit * score[subjects[i].grade];
+            }
+        }
+    }
+
+    return (my_score[0] * 2.5 + my_score[1] * 2.5 + my_score[2] * 2.5 + my_score[3] * 1.25 + my_score[4] * 1.25) / 10;
+}
+
+
+
+int main() {
+    struct Subject subjects[30]; // 최대 과목 수 정의
+    struct Person p;             // 지원자 정보 구조체
+
+    // p.name을 빈 문자열로 초기화
+    memset(p.name, 0, sizeof(p.name));
+
+    inputDefultData(&p); // 지원자 기본 정보 입력
+
+    // 데이터 입력
+    inputSubjectData(subjects);
+
+    float grades[3][5]; // 3학년, 5과목의 등급 저장 배열
+    struct GradeAverages averages; // 평균 값을 저장할 구조체
+
+    printf("\n고등학교 전체 평균 등급 계산기\n");
+
+    // 등급 입력 받기
+    input_grades(grades);
+
+    // 평균 계산
+    averages = calculate_averages(grades);
+
+    // 과목별 평균 출력
+    const char* subjects_names[] = {"국어", "수학", "영어", "과학탐구", "사회탐구"};
+    printf("\n과목별 평균 등급:\n");
+    for (int i = 0; i < 5; i++) {
+        printf("%s 평균 등급: %.2f\n", subjects_names[i], averages.subject_averages[i]);
+    }
+
+    // 점수 계산 및 출력
+    printf("\n가천대식 점수: %.2f\n", gachon(subjects, p));
+    printf("상명대식 점수: %.2f\n", smu(subjects, p));
+    printf("세종대식 점수: %.2f\n", sejong(subjects, p));
+    printf("명지대식 점수: %.2f\n", myongji(subjects, p));
+
+    return 0;
+}
