@@ -1,0 +1,31 @@
+#ifndef HEADER_H
+#define HEADER_H
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h> // exit() 함수 사용
+
+// 구조체 정의
+struct Person {
+    int ptype;        // 지원 분야 (문과: 1, 이과: 2, 예체능: 3, 의예: 4)
+    char name[20];    // 지원자 이름
+};
+
+struct Subject {
+    int stype;        // 과목코드 (1: 국어, 2: 영어, 3: 수학, 4: 사회, 5: 한국사, 6: 중국어, 7: 일본어)
+    int year;         // 학년
+    int chepter;      // 학기
+    int credit;       // 단위
+    int grade;        // 등급 (1~9)
+};
+
+// 함수 선언
+extern void inputDefultData(struct Person* p);
+extern void inputSubjectData(struct Subject subjects[], int* numSubjects);
+extern float gachon(struct Subject subjects[], struct Person person, int numSubjects);
+extern float smu(struct Subject subjects[], int numSubjects);
+extern float sejong(struct Subject subjects[], struct Person person, int numSubjects);
+extern float myongji(struct Subject subjects[], struct Person person, int numSubjects);
+extern void calculate_subject_averages(struct Subject subjects[], int numSubjects, float subject_averages[7]);
+
+#endif // HEADER_H
