@@ -28,4 +28,4 @@ extern float sejong(struct Subject subjects[], struct Person person, int numSubj
 extern float myongji(struct Subject subjects[], struct Person person, int numSubjects);
 extern void calculate_subject_averages(struct Subject subjects[], int numSubjects, float subject_averages[7]);
 
-#endif // HEADER_H
+#endif
